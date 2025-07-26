@@ -1,0 +1,79 @@
+<div class="col-lg-10`">
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row flex-between-end">
+                <div class="col-auto align-self-center">
+                    <h5 class="mb-0" data-anchor="data-anchor">{{ 'add_dishe'|translate }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="card-body bg-light">
+            <div class="tab-content">
+                <div class="tab-pane preview-tab-pane active" role="tabpanel"
+                    aria-labelledby="tab-dom-160a4566-7e94-45a2-bf04-b36ef49d954f"
+                    id="dom-160a4566-7e94-45a2-bf04-b36ef49d954f">
+                    <form #formx="ngForm" (submit)="createDish(formx)">
+                        <div class="md-4">
+                            <label class="form-label" for="basic-form-name">{{ 'name'|translate }}</label>
+                            <input 
+                            class="form-control" 
+                            id="basic-form-name" 
+                            type="text"
+                            [placeholder]="'food_example' | translate" 
+                            name="dishName"
+                            [(ngModel)]="dish.name"
+                            #dishName="ngModel"
+                            />
+                        </div>
+                        <div class="md-4">
+                            <label class="form-label" for="basic-form-name">{{ 'category'|translate }}</label>
+
+                            <select 
+                            class="form-control" 
+                            id="category" 
+                            name="category_id" 
+                            [(ngModel)]="dish.category_id"
+                            #categoryid="ngModel"
+                            >
+                                <option *ngFor="let id of categoriesKeys()" 
+                                [value]="id"> {{ categories[id].name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="md-4">
+                            <label class="form-label" for="basic-form-name">{{ 'price'|translate }}</label>
+                            <input 
+                            class="form-control" 
+                            type="number" 
+                            name="price"
+                            [(ngModel)]="dish.price"
+                            #price="ngModel"
+                            placeholder="130" 
+                            id="price"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-form-name">{{ 'description'|translate }}</label>
+                            <textarea 
+                            class="form-control" 
+                            name="description" 
+                            id="description"
+                            [(ngModel)]="dish.description"
+                            #description="ngModel"
+                            ></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <input  class="form-control" type="file" name="file" (change)="uploadNewFile($event)">
+                        </div>
+                        <button class="btn btn-primary" type="submit" >{{ 'save'|translate }}</button>
+                    </form>
+                </div>
+                <div class="tab-pane code-tab-pane" role="tabpanel"
+                    aria-labelledby="tab-dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f"
+                    id="dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f">
+                    {{ 'category_add_alert'|translate }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

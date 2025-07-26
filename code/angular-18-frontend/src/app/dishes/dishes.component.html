@@ -1,0 +1,214 @@
+<div class="card mb-3">
+    <div class="card-header border-bottom">
+      <div class="row flex-between-end">
+        <div class="col-auto align-self-center d-flex flex-column flex-sm-row">
+          <h5 class="mb-0" data-anchor="data-anchor">{{ 'dish_list'| translate }} <span
+            class="badge rounded-pill ms-2 bg-200 text-primary">{{ dishesCount }}</span></h5>
+        </div>
+        <div class="col-auto ms-auto">
+          <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
+            <button class="btn btn-sm active" data-bs-toggle="pill"
+              data-bs-target="#dom-5d6d5a1a-8f17-4831-9c08-cc44c955d933" type="button" role="tab"
+              aria-controls="dom-5d6d5a1a-8f17-4831-9c08-cc44c955d933" aria-selected="true"
+              id="tab-dom-5d6d5a1a-8f17-4831-9c08-cc44c955d933">{{'show'| translate }}</button>
+            <button class="btn btn-sm" data-bs-toggle="pill" data-bs-target="#dom-2009e079-9665-4774-a835-f9e4414e0cd4"
+              type="button" role="tab" aria-controls="dom-2009e079-9665-4774-a835-f9e4414e0cd4" aria-selected="false"
+              id="tab-dom-2009e079-9665-4774-a835-f9e4414e0cd4">{{ 'explane'| translate }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body pt-0">
+      <div class="tab-content">
+        <div class="tab-pane preview-tab-pane active" role="tabpanel"
+          aria-labelledby="tab-dom-5d6d5a1a-8f17-4831-9c08-cc44c955d933" id="dom-5d6d5a1a-8f17-4831-9c08-cc44c955d933">
+          <div class="table-responsive scrollbar">
+            <table class="table table-hover table-striped overflow-hidden">
+              <thead>
+                <tr>
+                  <th scope="col">{{ 'name'| translate }}</th>
+                  <th scope="col">{{ 'category'| translate }}</th>
+                  <th scope="col">{{ 'availability'| translate }} <span
+                    class="badge rounded-pill ms-2 bg-200 text-success">{{ availablefoodCount }}</span></th>
+                  <th scope="col">{{ 'price'| translate }}</th>
+                  <th scope="col"> {{ 'last_modified'| translate }} </th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr class="align-middle" *ngFor="let id of dishesKeys()">
+                  <td class="text-nowrap">
+                      <div class="d-flex align-items-center">
+                        <div class="avatar avatar-xl">
+                          <img class="rounded-circle" [src]="dishes[id].path" [alt]="'dishes_image' | translate" />
+                        </div>
+                        <div class="ms-2">{{ dishes[id].name }}</div>
+                      </div>
+                  </td>
+                  <td class="text-nowrap">{{ categories[dishes[id].category_id].name }}</td>
+                  <td>
+                    @if(dishes[id].availability == 'available'){
+                        <button  (click)="changStatus(id)" type="button" class="inherit-btn-spis">
+                            <span class="badge badge rounded-pill d-block p-2 badge-soft-success">
+                            {{ 'available'| translate }}
+                            <span class="ms-1 fas fa-check" data-fa-transform="shrink-2"></span>
+                            </span>
+                        </button>
+                    }@else {
+                        <button (click)="changStatus(id)" type="button" class="inherit-btn-spis">
+                            <span class="badge badge rounded-pill d-block p-2 badge-soft-danger">
+                                {{ 'unavailable'| translate }}
+                                <span class="ms-1 fas fa-ban" data-fa-transform="shrink-2"></span>
+                            </span>
+                        </button>
+                    }
+                  </td>
+                  <td class="text-start">
+                      {{ dishes[id].price | currency:'USD'}}
+                  </td>
+                  <td class="text-nowrap" data-bs-toggle="tooltip" data-bs-placement="top" [title]="dishes[id].updated_at.split('T')[0]">
+                    {{ controller.timeAgo( (dishes[id].updated_at)) }}
+                  </td>
+                  <td>
+                    <button  
+                    (click)="setDish(id)" 
+                    type="button" 
+                    class="inherit-btn-spis"
+                    data-bs-toggle="modal" 
+                    data-bs-placement="top" 
+                    data-bs-target="#editdishe"
+                    >
+                        <span class="badge badge rounded-pill d-block p-2 badge-soft-primary">
+                        {{ 'edit'| translate }}
+                        <span class="ms-1 fas fa-edit" data-fa-transform="shrink-2"></span>
+                        </span>
+                    </button>
+                    <button  
+                    (click)="this.idDelete = id" 
+                    type="button" 
+                    class="inherit-btn-spis"
+                    data-bs-toggle="modal" 
+                    data-bs-placement="top" 
+                    data-bs-target="#deletedish"
+                    >
+                        <span class="badge badge rounded-pill d-block p-2 badge-soft-danger">
+                        {{ 'delete'| translate }}
+                        <span class="ms-1 fas fa-trash" data-fa-transform="shrink-2"></span>
+                        </span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade " id="deletedish" tabindex="-1" aria-labelledby="deletedishLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-3 danger" id="deletedishLabel">{{ 'warning' | translate }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>{{ 'delete_dish_message' | translate   }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'retract' | translate  }}</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete()" >{{ 'sure' | translate
+            }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade " id="editdishe" tabindex="-1" aria-labelledby="editdisheLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-3 danger" id="editdisheLabel">{{ 'edit' | translate }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+                    <form #editform="ngForm" (submit)="edit(editform)" id="editform">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">{{ 'name'| translate}}:</label>
+                            <input 
+                            class="form-control" 
+                            id="name" 
+                            type="text" 
+                            name="name"
+                            [(ngModel)]="editForm.name"
+                            #name="ngModel"
+                            required
+                            [placeholder]="'name' | translate"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="formGrouptextareaInput">{{'description' | translate }}:</label>
+                            <textarea 
+                            class="form-control" 
+                            id="formGrouptextareaInput" 
+                            rows="3"
+                            [(ngModel)]="editForm.description"
+                            #description="ngModel"
+                            name="description"
+                            required
+                            >
+                                {{ editForm.description }}
+                            </textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="category">{{ 'description'| translate}}:</label>
+            
+                            <select 
+                                name="category_id" 
+                                id="category" 
+                                [(ngModel)]="editForm.category_id" 
+                                #categoryid="ngModel"
+                                class="form-select form-select-sm"
+                                required
+                                >
+                                <option 
+                                    *ngFor="let cid of categoriesKeys()"
+                                    [value]="cid" [selected]="cid == editForm.category_id">
+                                    {{ categories[cid].name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="price">{{ 'price' | translate }}:</label>
+                            <input 
+                                type="number" 
+                                name="price" 
+                                [(ngModel)]="editForm.price"
+                                #price="ngModel"
+                                [placeholder]="'price'|translate" 
+                                id="price" 
+                                class="form-control"
+                                required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="image">{{ 'image'| translate }}:</label>
+                            <input 
+                                type="file" 
+                                name="image"
+                                (change)="uploadNewFile($event)"
+                                class="form-control"
+                                id="image"
+                            >
+                        </div>
+                    </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'retract' | translate  }}</button>
+          <button class="btn btn-primary" type="submit" form="editform" data-bs-dismiss="modal">{{'save'| translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>

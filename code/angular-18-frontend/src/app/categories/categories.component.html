@@ -1,0 +1,192 @@
+
+<div class="row"> 
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-header">
+          <div class="row flex-between-end">
+            <div class="col-auto align-self-center">
+              <h5 class="mb-0" data-anchor="data-anchor">{{ 'categories'|translate }} </h5>
+            </div>
+            <div class="col-auto ms-auto">
+              <div class="nav nav-pills nav-pills-falcon flex-grow-1" role="tablist">
+                <button class="btn btn-sm active" data-bs-toggle="pill"
+                  data-bs-target="#dom-701c8864-6a8f-4052-a697-f9036f6f4228" type="button" role="tab"
+                  aria-controls="dom-701c8864-6a8f-4052-a697-f9036f6f4228" aria-selected="true"
+                  id="tab-dom-701c8864-6a8f-4052-a697-f9036f6f4228">{{ 'show'|translate }}</button>
+                <button class="btn btn-sm" data-bs-toggle="pill"
+                  data-bs-target="#dom-f21a2651-c13d-4816-bdbf-a5bcc70a2d13" type="button" role="tab"
+                  aria-controls="dom-f21a2651-c13d-4816-bdbf-a5bcc70a2d13" aria-selected="false"
+                  id="tab-dom-f21a2651-c13d-4816-bdbf-a5bcc70a2d13">{{ 'explane'|translate }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0">
+          <div class="tab-content">
+            <div class="tab-pane preview-tab-pane active" role="tabpanel"
+              aria-labelledby="tab-dom-701c8864-6a8f-4052-a697-f9036f6f4228"
+              id="dom-701c8864-6a8f-4052-a697-f9036f6f4228">
+              <div class="table-responsive scrollbar">
+                <table class="table table-hover">
+                  <colgroup>
+                    <col class="bg-soft-primary" />
+                    <col />
+                    <col />
+                  </colgroup>
+                  <thead>
+                    <tr class="btn-reveal-trigger">
+                      <th scope="col">{{ 'name'|translate }}</th>
+                      <th scope="col"> </th>
+
+                      <th class="text-center" scope="col">{{ 'last_update'|translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                        <tr class="hover-actions-trigger" *ngFor="let id of categoriesKeys()">
+                        <td class="align-middle text-nowrap">
+                            <div class="d-flex align-items-center">
+                            <div class="ms-2">{{ categories[id].name }}</div>
+                            </div>
+                        </td>
+                        <td class="w-auto">
+                            <div class="btn-group btn-group hover-actions end-0 me-4">
+                                <button 
+                                    (click)="categorye.name = categories[id].name ; this.id = id" 
+                                    class="btn btn-light pe-2" type="button"
+                                    data-bs-toggle="modal" data-bs-placement="top" 
+                                    data-bs-target="#editcategory">
+                                    <span class="fas fa-edit" [title]="'edit'|translate"></span>
+                                </button>
+                                <button 
+                                    (click)="this.id = id" 
+                                    class="btn btn-light ps-2" type="button"
+                                    data-bs-toggle="modal" data-bs-placement="top" 
+                                    data-bs-target="#deletecategory">
+                                    <span class="fas fa-trash-alt" [title]="'delete'|translate" >
+                                    </span>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="align-start text-nowrap">{{ dataRepository.controller.timeAgo(categories[id].updated_at) }}</td>
+                        </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane code-tab-pane" role="tabpanel"
+              aria-labelledby="tab-dom-f21a2651-c13d-4816-bdbf-a5bcc70a2d13"
+              id="dom-f21a2651-c13d-4816-bdbf-a5bcc70a2d13">
+              {{ 'categories_alert' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+  
+
+    <div class="col-lg-4">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row flex-between-end">
+            <div class="col-auto align-self-center">
+              <h5 class="mb-0" data-anchor="data-anchor">{{ 'add_category' |translate }}</h5>
+            </div>
+            <div class="col-auto ms-auto">
+              <div class="nav nav-pills nav-pills-falcon flex-grow-1" role="tablist">
+                <button class="btn btn-sm active" data-bs-toggle="pill"
+                  data-bs-target="#dom-160a4566-7e94-45a2-bf04-b36ef49d954f" type="button" role="tab"
+                  aria-controls="dom-160a4566-7e94-45a2-bf04-b36ef49d954f" aria-selected="true"
+                  id="tab-dom-160a4566-7e94-45a2-bf04-b36ef49d954f">{{ 'add'|translate }}</button>
+                <button class="btn btn-sm" data-bs-toggle="pill"
+                  data-bs-target="#dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f" type="button" role="tab"
+                  aria-controls="dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f" aria-selected="false"
+                  id="tab-dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f">{{ 'explane'|translate }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bg-light">
+          <div class="tab-content">
+            <div class="tab-pane preview-tab-pane active" role="tabpanel"
+              aria-labelledby="tab-dom-160a4566-7e94-45a2-bf04-b36ef49d954f"
+              id="dom-160a4566-7e94-45a2-bf04-b36ef49d954f">
+              <form #form="ngForm" (submit)="createCategory(form)">
+                <div class="mb-3">
+                  <label class="form-label" for="basic-form-name">{{ 'name' | translate }}</label>
+                  <input 
+                  #catname="ngModel"
+                  [(ngModel)]="category.name"
+                  name="catname"    
+                  class="form-control" 
+                  id="basic-form-name"  
+                  type="text"
+                  [placeholder]="'categories_example' | translate" 
+                  required
+                />
+                </div>
+                <button class="btn btn-primary" type="submit">{{ 'save' | translate }}</button>
+              </form>
+            </div>
+            <div class="tab-pane code-tab-pane" role="tabpanel"
+              aria-labelledby="tab-dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f"
+              id="dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f">
+              {{ 'category_add_alert' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+  <div class="modal fade " id="deletecategory" tabindex="-1" aria-labelledby="deletecategoryLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-3 danger" id="deletecategoryLabel">{{ 'warning' | translate }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>{{ 'delete_category_message' | translate   }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'retract' | translate  }}</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="dalateCategory(id)" >{{ 'sure' | translate
+            }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+   <div class="modal fade " id="editcategory" tabindex="-1" aria-labelledby="editcategoryLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-3 " id="editcategoryLabel">{{ 'edit' | translate }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="category.name = ''"></button>
+        </div>
+        <div class="modal-body">
+          <form class="from-control" #editform="ngForm" (submit)="editCategory(editform)" id="editform">
+            <input 
+            type="text" 
+            name="editname" 
+            [(ngModel)]="categorye.name" 
+            #editname="ngModel" 
+            required
+            class="form-control" [placeholder]="'name'|translate">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="category.name = ''">{{ 'close' | translate }}</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" form="editform"
+          >
+          {{ "save" | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+
