@@ -20,7 +20,7 @@ export class LoginComponent {
             this.authService.login(this.data);
         }
         else{
-
+            
         }
     }
 

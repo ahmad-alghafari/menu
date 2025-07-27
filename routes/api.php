@@ -20,8 +20,8 @@ Route::get('/example', function () {
     return response()->json(['message' => 'API is working!'] , 200);
 });
 
-Route::get('/data/{id}' , function($id){
-    $resturant = Resturant::find($id);
+Route::get('/resturants/{id}' , function($id){
+    $resturant = Resturant::with(['Category', 'Dish'])->find($id);
     if(!$resturant){
         return response()->json([
             "message" => "resturant not found"
@@ -73,10 +73,10 @@ Route::middleware("auth:api")->group(function () {
         Route::delete('/{id}', [QrcodeController::class, 'destroy']);
     });
 
-    Route::prefix("/resturants")->group(function(){
-        Route::get("/" , [ResturantController::class , 'index']);
-        Route::get("/{name}", [ResturantController::class , 'item']);
-        Route::post("/" , [ResturantController::class , 'create']);
-        Route::delete("/{id}" , [ResturantController::class , 'delete']);
-    });
+    // Route::prefix("/resturants")->group(function(){
+    //     Route::get("/" , [ResturantController::class , 'index']);
+    //     Route::get("/{name}", [ResturantController::class , 'item']);
+    //     Route::post("/" , [ResturantController::class , 'create']);
+    //     Route::delete("/{id}" , [ResturantController::class , 'delete']);
+    // });
 });

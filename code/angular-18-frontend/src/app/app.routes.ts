@@ -12,6 +12,7 @@ import { guestGuard } from './guard/guest.guard';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import { UserLayoutComponent } from './user-layout/user-layout.component';
 import { DishesUserComponent } from './dishes-user/dishes-user.component';
+import { ServiceunavailableComponent } from './serviceunavailable/serviceunavailable.component';
 
 
 export const routeNames = {
@@ -22,7 +23,8 @@ export const routeNames = {
     dishes_create: 'dashboard/dishes/create',
     orders : 'dashboard/orders',
     qrcode : 'dashboard/QRcode',
-    menu: 'restuarants/:name',
+    menu: 'restuarants/:id',
+    serviceUnavailable : "service-unavailable",
     notFound: '**',
 };
 
@@ -44,7 +46,14 @@ export const routes: Routes = [
         path: 'seless',
         component: UserLayoutComponent,
         children: [
-            { path: routeNames.menu, component: DishesUserComponent },
+            { 
+                path: routeNames.menu, 
+                component: DishesUserComponent 
+            },
+            { 
+                path: routeNames.serviceUnavailable, 
+                component: ServiceunavailableComponent 
+            },
         ]
     },
     { 
@@ -52,7 +61,6 @@ export const routes: Routes = [
         component: LoginComponent, 
         canActivate: [guestGuard]
     },
-
     { 
         path: routeNames.notFound, 
         component: NotfoundComponent 

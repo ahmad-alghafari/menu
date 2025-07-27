@@ -1,96 +1,95 @@
-<p>dishesList work!</p>
-<!-- 
 <section class="food_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
         <h2 class="zoomIn">
-          قائمة الطعام
+          {{ 'dish_list' | translate}}
         </h2>
       </div>
 
       <ul class="filters_menu" >
         <li class="active" data-filter="*">الكل  </li>
-        <li v-for="cat in props.categories" :key="cat.index" :data-filter="`.${cat}`">{{ cat }}</li>
+        <li *ngFor="let id of categoriesKeys()" [attr.data-filter]="id">{{ categories[id].name }}</li>
       </ul>
       <div class="filters-content">
         <div class="row grid"  >
-          <div v-for="fod in food " :key="fod.id" :class="`col-sm-6 col-lg-4 all ${props.categories[fod.category_id]} `" >
+          <div *ngFor="let did of dishesKeys()" [class]="'col-sm-6 col-lg-4 all '+dishes[did].category_id" >
             <div class="box zoomIn">
               <div>
                 <div class="img-box">
-                  <img :src="`/${fod.path}`" alt="">
+                  <img [src]="dishes[did].path" alt="dish image">
                 </div>
                 <div class="detail-box">
                     <h5>
-                      {{ fod.name }}
+                      {{ dishes[did].name }}
                     </h5>
                     <p>
-                      {{ fod.description }}
+                      {{ dishes[did].description }}
                     </p>
-                    <p v-if="fod.availability == 'availble'">
-                      متوفر
-                    </p>
-                    <p v-else>
-                      غير متوفر
-                    </p>
+                    <ng-container *ngIf="dishes[did].availability == 'available'; else unavailableBlock">
+                      <p>{{ 'available' | translate }}</p>
+                    </ng-container>
+
+                    <ng-template #unavailableBlock>
+                      <p>{{ 'unavailable' | translate }}</p>
+                    </ng-template>
                     
-                    <div class="options">
+                    <!--                    <div class="options">
                       <h6>
-                        {{ fod.price }} SR
+                        {{ dishes[did].price }} SR
                       </h6>
                       <a class="cart_link "  @click="display_flex(fod.id)" :style="`display: ${isAdded(fod.id)} ;`">
                         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                    <g>
-                      <g>
-                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                    c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                      </g>
-                    </g>
-                    <g>
-                      <g>
-                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                    C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                    c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                    C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                      </g>
-                    </g>
-                    <g>
-                      <g>
-                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                      </g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                  </svg>
+                          <g>
+                            <g>
+                              <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                          c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                            </g>
+                          </g>
+                          <g>
+                            <g>
+                              <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                          C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                          c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                          C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                            </g>
+                          </g>
+                          <g>
+                            <g>
+                              <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                            </g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                          <g>
+                          </g>
+                        </svg>
                       </a>
                     </div>
                     <br>
@@ -128,22 +127,28 @@
 
                         
                     </div>
+
+                    -->
+
+
                   </div>
                 </div>
               </div>
-            </div>
+          </div>
           </div>
         </div>
       </div>
 
   </section>  
-  <button  type="button" class="floating-button btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">شراء</button>
+  <button  type="button" class="floating-button btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">{{'pay' | translate}}</button>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">محتويات الطلب</h1>
         </div>
+              <!--
+
         <div class="modal-body">
           <table  class="table table-striped">
             <thead>
@@ -172,6 +177,8 @@
           <button type="button" class="btn btn-secondry" data-bs-dismiss="modal" aria-label="Close" >إغلاق</button>
 
         </div>
+               -->
+
       </div>
     </div>
-  </div> -->
+  </div> 
