@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { DataRepositoryService } from './data-repository.service';
+import { routeNames } from '../app.routes';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class AuthService {
           // console.log("set token correct : " + token);
         }
         this.isLoggedInSubject.next(true);
-        this.router.navigate(['/']);
+        this.router.navigate(['/admin',routeNames.dashboard]);
       },
       error: (error) => {
         // console.log("res error");

@@ -2,7 +2,9 @@ const port:string = '8000';
 const protocol = 'http';
 const domain = '127.0.0.1';
 const baseUrl = protocol + '://' + domain + ':' + port ;
-const apiUrl = baseUrl + '/api';
+// const apiUrl = baseUrl + '/api';
+const apiUrl = "https://menu-main-hiqrjd.laravel.cloud/api";
+
 export const environment = {
     production: false,
     example : apiUrl + '/example',

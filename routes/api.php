@@ -6,6 +6,7 @@ use App\Http\Controllers\PassportController;
 use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\ResturantController;
 use App\Models\Resturant;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
     
 Route::post('login', [PassportController::class, 'login']);
@@ -14,7 +15,9 @@ Route::post('logout', [PassportController::class, 'logout'])->middleware('auth:a
 Route::get('me', [PassportController::class, 'details'])->middleware('auth:api');
 Route::get('verify-token', [PassportController::class, 'boollog'])->middleware('auth:api');
 
-
+Route::get('/users', function () {
+    return response()->json(['users' => User::all()] , 200);
+});
 
 Route::get('/example', function () {
     return response()->json(['message' => 'API is working!'] , 200);
