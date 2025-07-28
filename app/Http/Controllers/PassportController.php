@@ -44,12 +44,9 @@ class PassportController extends Controller
         ];
  
         if (auth()->attempt($credentials)) {
-            $token = auth()->user()->createToken('Laravel')->accessToken;
-            $resturant = auth()->user()->resturant;
+            $token = auth()->user()->createToken('Seless')->accessToken;
             return response()->json([
                 'token' => $token ,
-                'resturant' => $resturant ,
-                'order' => $resturant->order,
             ]);
         } else {
             return response()->json(['error' => 'UnAuthorised' , 403]);
